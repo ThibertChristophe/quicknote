@@ -45,6 +45,47 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm deleting'),
+          content: const Text(
+            'Are u sure ?',
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Confirm'),
+              onPressed: () async {
+                await NoteDB.delete(id: _noteIDCurrent);
+                setState(
+                  () {
+                    _textEditingController.text = "";
+                    _noteIDCurrent = 0;
+                  },
+                );
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,13 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Icon(
                 Icons.delete,
               ),
-              onPressed: () async {
-                await NoteDB.delete(id: _noteIDCurrent);
-                setState(() {
-                  _textEditingController.text = "";
-                  _noteIDCurrent = 0;
-                });
-              },
+              onPressed: () => _dialogBuilder(context),
             ),
             IconButton(
               icon: const Icon(
