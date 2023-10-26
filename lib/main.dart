@@ -68,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     _noteIDCurrent = 0;
                   },
                 );
+                if (!context.mounted) return;
                 Navigator.of(context).pop();
               },
             ),
