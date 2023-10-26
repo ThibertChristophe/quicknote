@@ -36,9 +36,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _textEditingController = TextEditingController();
   double _textFieldHeight = 50.0;
-  int noteIDCurrent = 0;
-  Future<List<Note>>? futureNotes;
-  int indexSelected = -1;
+  int _noteIDCurrent = 0;
+  int _indexSelected = -1;
 
   @override
   void dispose() {
@@ -58,10 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.delete,
               ),
               onPressed: () async {
-                await NoteDB.delete(id: noteIDCurrent);
+                await NoteDB.delete(id: _noteIDCurrent);
                 setState(() {
                   _textEditingController.text = "";
-                  noteIDCurrent = 0;
+                  _noteIDCurrent = 0;
                 });
               },
             ),
@@ -70,9 +69,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.add,
               ),
               onPressed: () async {
-                if (noteIDCurrent != 0) {
+                if (_noteIDCurrent != 0) {
                   await NoteDB.update(
-                      id: noteIDCurrent, content: _textEditingController.text);
+                      id: _noteIDCurrent, content: _textEditingController.text);
                 } else {
                   await NoteDB.create(content: _textEditingController.text);
                   NoteDB.fetchAll();
@@ -80,8 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 setState(() {
                   _textEditingController.text = "";
-                  indexSelected = -1;
-                  noteIDCurrent = 0;
+                  _indexSelected = -1;
+                  _noteIDCurrent = 0;
                 });
               },
             ),
@@ -134,13 +133,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     return SizedBox(
                       height: 50,
                       child: ListTile(
-                        selected: indexSelected == index,
+                        selected: _indexSelected == index,
                         onTap: () async {
                           Note result = await NoteDB.fetchById(note.id);
                           setState(() {
-                            indexSelected = index;
+                            _indexSelected = index;
                             _textEditingController.text = result.content;
-                            noteIDCurrent = note.id;
+                            _noteIDCurrent = note.id;
                           });
                           Navigator.of(context).pop();
                         },
