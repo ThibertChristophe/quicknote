@@ -7,8 +7,6 @@ QuickNote is a simple note-taking app built using Flutter. It allows you to crea
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
 - [Features](#features)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
